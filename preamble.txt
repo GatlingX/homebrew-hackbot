@@ -1,0 +1,9 @@
+
+class Hackbot < Formula
+  include Language::Python::Virtualenv
+
+  desc "CLI tool for source code analysis using the Hackbot service"
+  homepage "https://github.com/GatlingX/hackbot"
+  url "https://github.com/GatlingX/hackbot/"
+  version "VERSION"
+  
