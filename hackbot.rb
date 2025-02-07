@@ -4,11 +4,13 @@ class Hackbot < Formula
 
   desc "CLI tool for source code analysis using the Hackbot service"
   homepage "https://github.com/GatlingX/hackbot"
-  url "https://github.com/GatlingX/hackbot/"
+  url "https://files.pythonhosted.org/packages/c7/db/cfcf1e32c1f89aadce2cc749d406f7c3892dbe34f5d719598ae4c42fa508/hackbot-0.2.1.tar.gz" 
+  sha256 "e95dfae61a0b091d1b3f9c9b144e031983dcf3849298022a7e14fbabf7d97e44"
   version "0.2.1"
+  
   resource "aiohappyeyeballs" do
-    url "https://files.pythonhosted.org/packages/7f/55/e4373e888fdacb15563ef6fa9fa8c8252476ea071e96fb46defac9f18bf2/aiohappyeyeballs-2.4.4.tar.gz"
-    sha256 "5fdd7d87889c63183afc18ce9271f9b0a7d32c2303e394468dd45d514a757745"
+    url "https://files.pythonhosted.org/packages/08/07/508f9ebba367fc3370162e53a3cfd12f5652ad79f0e0bfdf9f9847c6f159/aiohappyeyeballs-2.4.6.tar.gz"
+    sha256 "9b05052f9042985d32ecbe4b59a77ae19c006a78f1344d7fdad69d28ded3d0b0"
   end
 
   resource "aiohttp" do
@@ -69,11 +71,6 @@ class Hackbot < Formula
   resource "GitPython" do
     url "https://files.pythonhosted.org/packages/c0/89/37df0b71473153574a5cdef8f242de422a0f5d26d7a9e231e6f169b4ad14/gitpython-3.1.44.tar.gz"
     sha256 "c87e30b26253bf5418b01b0660f818967f3c503193838337fe5e573331249269"
-  end
-
-  resource "hackbot" do
-    url "https://files.pythonhosted.org/packages/c7/db/cfcf1e32c1f89aadce2cc749d406f7c3892dbe34f5d719598ae4c42fa508/hackbot-0.2.1.tar.gz"
-    sha256 "e95dfae61a0b091d1b3f9c9b144e031983dcf3849298022a7e14fbabf7d97e44"
   end
 
   resource "idna" do
@@ -193,7 +190,7 @@ class Hackbot < Formula
 
 
   def install
-    virtualenv_install_with_resources
+    virtualenv_install_with_resources using: "python@3.12"
   end
 
   test do

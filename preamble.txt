@@ -4,6 +4,7 @@ class Hackbot < Formula
 
   desc "CLI tool for source code analysis using the Hackbot service"
   homepage "https://github.com/GatlingX/hackbot"
-  url "https://github.com/GatlingX/hackbot/"
+  HACKBOT_URL 
+  HACKBOT_SHA256
   version "VERSION"
   
