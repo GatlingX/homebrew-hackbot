@@ -1,13 +1,13 @@
-
 class Hackbot < Formula
   include Language::Python::Virtualenv
 
   desc "CLI tool for source code analysis using the Hackbot service"
   homepage "https://github.com/GatlingX/hackbot"
-  url "https://files.pythonhosted.org/packages/c7/db/cfcf1e32c1f89aadce2cc749d406f7c3892dbe34f5d719598ae4c42fa508/hackbot-0.2.1.tar.gz" 
+  url "https://files.pythonhosted.org/packages/c7/db/cfcf1e32c1f89aadce2cc749d406f7c3892dbe34f5d719598ae4c42fa508/hackbot-0.2.1.tar.gz"
   sha256 "e95dfae61a0b091d1b3f9c9b144e031983dcf3849298022a7e14fbabf7d97e44"
-  version "0.2.1"
-  
+
+  depends_on "python3"
+
   resource "aiohappyeyeballs" do
     url "https://files.pythonhosted.org/packages/08/07/508f9ebba367fc3370162e53a3cfd12f5652ad79f0e0bfdf9f9847c6f159/aiohappyeyeballs-2.4.6.tar.gz"
     sha256 "9b05052f9042985d32ecbe4b59a77ae19c006a78f1344d7fdad69d28ded3d0b0"
@@ -188,12 +188,12 @@ class Hackbot < Formula
     sha256 "ac1801c45cbf77b6c99242eeff4fffb5e4e73a800b5c4ad4fc0be5def634d2e1"
   end
 
-
   def install
-    virtualenv_install_with_resources using: "python@3.12"
+    virtualenv_create(libexec, "python3")
+    virtualenv_install_with_resources
   end
 
   test do
-    system bin/"hackbot", "--help"
+    false
   end
 end

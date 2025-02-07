@@ -28,20 +28,14 @@ poet: ensure_venv
 	pip install -U hackbot && \
 	pip install homebrew-pypi-poet
 	. $(VENV_ACTIVATE) && \
-	poet hackbot > poet_output.txt 
-	# Run a simple script to move the hackbot resource stanza to url and sha256
-	./move_hackbot_resource.py
-	@echo "$(GREEN)✅ Resource stanzas generated successfully!$(RESET)"
+	poet -f hackbot > hackbot.rb
+	@echo "$(GREEN)✅ Formula generated successfully!$(RESET)"
 
 assemble_formula: poet
-	@echo "$(BLUE)🔨 Assembling formula file...$(RESET)"
-	@cat preamble_processed.txt poet_output.txt postamble.txt > $(FORMULA_FILE)
-	@rm poet_output.txt
-	@# Get version from pip
-	@. $(VENV_ACTIVATE) && \
-	VERSION=$$(pip show hackbot | grep Version | cut -d ' ' -f 2) && \
-	echo "$(BLUE)📌 Setting version to: $$VERSION$(RESET)" && \
-	perl -pi -e "s/version \"VERSION\"/version \"$$VERSION\"/" $(FORMULA_FILE)
+	# Replace the description with the description from the formula
+	perl -pi -e 's/desc "Shiny new formula"/desc "CLI tool for source code analysis using the Hackbot service"/' hackbot.rb
+	# Replace the homepage with the homepage from the formula
+	perl -pi -e 's|homepage "None"|homepage "https://github.com/GatlingX/hackbot"|' hackbot.rb
 	@echo "$(GREEN)✅ Formula assembled successfully!$(RESET)"
 
 # Run brew audit on the formula
