@@ -3,10 +3,12 @@ class Hackbot < Formula
 
   desc "CLI tool for source code analysis using the Hackbot service"
   homepage "https://github.com/GatlingX/hackbot"
-  url "https://files.pythonhosted.org/packages/c7/db/cfcf1e32c1f89aadce2cc749d406f7c3892dbe34f5d719598ae4c42fa508/hackbot-0.2.1.tar.gz"
-  sha256 "e95dfae61a0b091d1b3f9c9b144e031983dcf3849298022a7e14fbabf7d97e44"
+  url "https://files.pythonhosted.org/packages/6e/72/495576b8af527d21dfa0354a965f46ee9436714bebbbcd410e630962561f/hackbot-0.2.2.1.tar.gz"
+  sha256 "49f7e72b73a581910d98d51fa59c64c6746ea7b0f26d9a2e5dc265d7df58206b"
 
-  depends_on "python3"
+  depends_on "python@3.12"
+  depends_on "cryptography"
+  depends_on "maturin"
 
   resource "aiohappyeyeballs" do
     url "https://files.pythonhosted.org/packages/08/07/508f9ebba367fc3370162e53a3cfd12f5652ad79f0e0bfdf9f9847c6f159/aiohappyeyeballs-2.4.6.tar.gz"
@@ -48,11 +50,7 @@ class Hackbot < Formula
     sha256 "44251f18cd68a75b56585dd00dae26183e102cd5e0f9f1466e6df5da2ed64ea3"
   end
 
-  resource "cryptography" do
-    url "https://files.pythonhosted.org/packages/91/4c/45dfa6829acffa344e3967d6006ee4ae8be57af746ae2eba1c431949b32c/cryptography-44.0.0.tar.gz"
-    sha256 "cd4e834f340b4293430701e772ec543b0fbe6c2dea510a5286fe0acabe153a02"
-  end
-
+  
   resource "Deprecated" do
     url "https://files.pythonhosted.org/packages/98/97/06afe62762c9a8a86af0cfb7bfdab22a43ad17138b07af5b1a58442690a2/deprecated-1.2.18.tar.gz"
     sha256 "422b6f6d859da6f2ef57857761bfb392480502a64c3028ca9bbe86085d72115d"
@@ -189,7 +187,7 @@ class Hackbot < Formula
   end
 
   def install
-    virtualenv_create(libexec, "python3")
+    virtualenv_create(libexec, "python3.12")
     virtualenv_install_with_resources
   end
 

@@ -17,15 +17,18 @@ all: update-formula test
 VENV_NAME=venv
 VENV_ACTIVATE=$(VENV_NAME)/bin/activate
 
+PYTHON_WITH_VERSION="python3.12"
+PYTHON_VERSION="python\@3.12"
+
 ensure_venv:
 	@echo "$(BLUE)🔧 Creating Python virtual environment...$(RESET)"
-	python3 -m venv $(VENV_NAME)
+	$(PYTHON_WITH_VERSION) -m venv $(VENV_NAME)
 
 # Create the package, with preamble and postamble from preamble.txt and postamble.txt
 poet: ensure_venv
 	@echo "$(BLUE)📝 Generating resource stanzas with homebrew-pypi-poet...$(RESET)"
 	. $(VENV_ACTIVATE) && \
-	pip install -U hackbot && \
+	pip install -U --force-reinstall hackbot && \
 	pip install homebrew-pypi-poet
 	. $(VENV_ACTIVATE) && \
 	poet -f hackbot > hackbot.rb
@@ -36,6 +39,14 @@ assemble_formula: poet
 	perl -pi -e 's/desc "Shiny new formula"/desc "CLI tool for source code analysis using the Hackbot service"/' hackbot.rb
 	# Replace the homepage with the homepage from the formula
 	perl -pi -e 's|homepage "None"|homepage "https://github.com/GatlingX/hackbot"|' hackbot.rb
+	@# Remove the resource stanza for cryptography, i.e. just the 2 lines before and after the resource "cryptography" do line
+	perl -0777 -pi -e 's/resource "cryptography" do.*\n(?:.*\n){3}//' hackbot.rb
+	@# Replace the python version with the python version from default formula "python3" with the specific version we want
+	@# virtualenv_create(libexec, "python3") -> virtualenv_create(libexec, "python3.12")
+	perl -pi -e 's|libexec, \"python3\"|libexec, $(PYTHON_WITH_VERSION)|' hackbot.rb
+	@# depends_on "python3" -> depends_on "python@3.12"
+	@# the cryptography and maturin dependencies after the depends_on line
+	perl -pi -e 's|depends_on "python3"|depends_on $(PYTHON_VERSION)\n  depends_on "cryptography"\n  depends_on "maturin"|' hackbot.rb
 	@echo "$(GREEN)✅ Formula assembled successfully!$(RESET)"
 
 # Run brew audit on the formula
